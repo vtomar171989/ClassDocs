@@ -1,0 +1,8 @@
+/* You can add global styles to this file, and also import other style files */
+#bg {
+  background: linear-gradient(
+    to bottom right,
+    #e60505,
+    #790202
+  ); /* Standard syntax (must be last) */
+}

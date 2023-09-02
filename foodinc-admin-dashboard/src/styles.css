@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  background: #f9f9f9;
+}
+
+.btn:focus, .btn::selection, 
+.btn-close:focus, .btn-close::selection, 
+input:focus, input::selection {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+label {
+  font-size: 14px !important;
+}

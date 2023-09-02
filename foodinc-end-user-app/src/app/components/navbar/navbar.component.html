@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger flex-shrink-0">
+  <a class="h4 mb-0 text-white text-uppercase" routerLink="/" [replaceUrl]="true" style="text-decoration: none;">
+    Foodie Inc
+  </a>
+
+  <button class="navbar-toggler" type="button" (click)="openNavbarModal(navbarModal)" aria-controls="sidenav-collapse-main">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed" id="sidenav-collapse-main">
+    <ul class="navbar-nav">
+      <li *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
+        <a routerLinkActive="active" [routerLink]="[menuItem.path]" class="nav-link">
+          {{menuItem.title}}
+          <span class="badge badge-light ml-1" *ngIf="menuItem.path === '/cart' && (db.cartsSub | async)?.length !== 0">
+            {{ (db.cartsSub | async)?.length || 0 }}
+          </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a type="button" class="nav-link" (click)="authService.logout()">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<ng-template let-modal #navbarModal>
+  <div class="modal-header border-0 d-flex justify-content-between align-items-center">
+    <h4 class="m-0">Menu</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="navbar-nav flex-column flex-1" style="width: inherit;">
+      <li *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
+        <a routerLinkActive="active" [routerLink]="[menuItem.path]" (click)="modal.dismiss()" class="nav-link text-dark d-flex justify-content-between align-items-center">
+          <span>{{menuItem.title}}</span>
+          <span class="badge badge-dark" *ngIf="menuItem.path === '/shopping-cart' && db.products.length !== 0">
+            {{ db.products.length || 0 }}
+          </span>
+          <span class="badge badge-dark"
+            *ngIf="menuItem.path === '/whishlist' && db.whishlistProducts.length !== 0">
+            {{ db.whishlistProducts.length || 0 }}
+          </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a type="button" class="nav-link" (click)="authService.logout()">Logout</a>
+      </li>
+    </ul>
+  </div>
+</ng-template>

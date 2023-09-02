@@ -1,0 +1,37 @@
+<div class="row w-100 m-0 mt-2">
+  <div class="col-12">
+    <h4>Dishes</h4>
+  </div>
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let dish of dishes; index as idx">
+    <div class="card">
+      <!-- <div class="card-header bg-white">
+      </div> -->
+      <img [src]="dish['images'][dish['thumbnailImage']]" alt="" class="card-img-top">
+      <div class="card-body">
+        <h4 class="card-title m-0 mb-1 d-flex justify-content-between align-items-center">
+          <span>{{ dish['name'] }}</span>
+          <span style="font-size: 20px;">{{ dish['price'] | currency: 'INR':'symbol' }}</span>
+        </h4>
+        <p class="card-text m-0">{{ dish['description'] }}</p>
+
+        <p class="card-text m-0 mt-3 mb-2">Ingredients</p>
+        <h6 class="btn btn-sm btn-primary rounded-pill no-hover-effect m-0 mr-1 mb-1" *ngFor="let ingredient of dish['ingredients']; index as idx">
+          {{ ingredient }}
+        </h6>
+      </div>
+      <div class="card-footer border-0 bg-white">
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <div class="d-flex flex-column">
+              <span class="h6 m-0">{{ dish['restaurantName'] }}</span>
+              <span class="text-sm text-muted text-wrap">{{ dish['restaurantAddress'] }}</span>
+            </div>
+          </div>
+          <div class="col-12 col-sm">
+            <button type="button" class="btn btn-primary btn-sm rounded-pill text-wrap float-right" (click)="db.addProductToList(dish['dishId'])">Add To Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

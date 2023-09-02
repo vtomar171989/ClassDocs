@@ -1,0 +1,47 @@
+Practice Queries:
+Retrieve all columns from the "products" table.
+
+Find the names of all employees in the "Sales" department.
+
+List the unique cities from the "customers" table.
+
+Select the product with the highest price from the "inventory" table.
+Insert a new customer with a name "Alice" into the "customers" table.
+
+Add a new product with a name "Widget" and a price of 19.99 into the "products" table.
+Update the salary of employee with ID 101 to 65000 in the "employees" table.
+
+Change the product name from "Old Widget" to "New Widget" in the "products" table.
+Delete the order with OrderID 123 from the "orders" table.
+
+Remove all employees with a status of "terminated" from the "employees" table.
+Use the TRUNCATE command to remove all data from the "log_records" table.
+
+Truncate the "audit_logs" table to clear all audit log records.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+SELECT Subqueries:
+
+Find the employee with the highest salary in the "employees" table.
+
+Retrieve all orders with a total amount greater than the average total amount in the "orders" table.
+
+List customers who have placed orders in the last 30 days.
+
+INSERT Subqueries:
+
+Insert all employees from the "temporary_employees" table into the "permanent_employees" table.
+
+Add products to the "out_of_stock_products" table by selecting them from the "products" table where the quantity is less than 10.
+
+UPDATE Subqueries:
+
+Update the salary of all employees in the "sales" department by increasing it by 10% using a subquery.
+
+Change the status of employees in the "hr_department" to "terminated" using a subquery.
+
+DELETE Subqueries:
+
+Delete all orders placed by customers who have not made any orders in the last 6 months.
+
+Remove all products from the "obsolete_products" table by selecting them from the "products" table based on certain criteria.

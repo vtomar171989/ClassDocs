@@ -1,0 +1,138 @@
+<div class="container-fluid py-3">
+  <div class="row w-100 m-0">
+    <div class="col">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white border-0">
+          <div class="row">
+            <div class="col d-flex justify-content-between align-items-center">
+              <h4>Restaurants</h4>
+              <button type="button" class="btn btn-primary btn-sm" (click)="openRestaurantModal(restaurantModelRef)">Add Restaurant</button>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-flush m-0">
+            <thead>
+              <tr>
+                <th scope="col">Sr. No</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Contact</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let restaurant of restaurants; index as idx">
+                <td>{{ idx + 1 }}</td>
+                <td>{{ restaurant["name"] }}</td>
+                <td>{{ restaurant["email"] }}</td>
+                <td>{{ restaurant["contact"] }}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-outline-primary me-1" [routerLink]="['./', restaurant.restaurantId, 'dishes']">Manage Dishes</button>
+                  <button type="button" class="btn btn-sm btn-outline-primary me-1" (click)="openRestaurantModal(restaurantModelRef, restaurant)">Update</button>
+                  <!-- <button type="button" class="btn btn-sm btn-outline-primary me-1">Delete</button> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #restaurantModelRef let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Restaurant Details</h4>
+    <button type="button" class="btn-close" aria-label="Close" id="closeAddNewStaffModal" #closeAddNewStaffModal
+      (click)="modal.dismiss('Cross click')">
+    </button>
+  </div>
+  <form [formGroup]="restaurantForm" (ngSubmit)="saveRestaurant()" ngNativeValidate>
+    <div class="modal-body">
+      <div class="row w-100 m-0">
+        <div class="col-12 col-sm-5">
+          <h6 class="m-0 mb-1">About Restaurant</h6>
+          <div class="mb-2">
+            <label for="restaurantName" class="form-label text-muted m-0 mb-1">Name</label>
+            <input type="text" class="form-control" id="restaurantName" name="restaurantName" formControlName="name" placeholder="eg: ABS Restaurant">
+          </div>
+          <div class="mb-2">
+            <label for="description" class="form-label text-muted m-0 mb-1">About Restaurant</label>
+            <textarea type="text" rows="5" class="form-control" id="description" name="description" formControlName="description" placeholder="eg: ABS Restaurant"></textarea>
+          </div>
+          <div class="mb-2">
+            <label for="address" class="form-label text-muted m-0 mb-1">Address</label>
+            <textarea type="text" rows="2" class="form-control" id="address" name="address" formControlName="address" placeholder="eg: ABC Street, new York..."></textarea>
+          </div>
+
+          <hr class="my-3">
+          <h6 class="m-0 mb-1">Contact Information</h6>
+          <div class="mb-2">
+            <label for="email" class="form-label text-muted m-0 mb-1">Email</label>
+            <input type="email" class="form-control" id="email" name="email" formControlName="email" placeholder="eg: abs@example.com">
+          </div>
+          <div class="mb-2">
+            <label for="contact" class="form-label text-muted m-0 mb-1">Mobile</label>
+            <input type="tel" class="form-control" id="contact" name="contact" formControlName="contact" placeholder="eg: +91-****-***-788">
+          </div>
+          <div class="mb-2">
+            <label for="status" class="text-sm text-muted m-0 mb-1">Dish status</label><br>
+            <div id="status" class="btn-group btn-group-toggle" ngbRadioGroup formControlName="status">
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" class="btn-check" [value]="1">Acive
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" class="btn-check" [value]="0">Inactive
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm">
+          <h6 class="m-0 mb-1">
+            <div class="d-flex justify-content-between">
+              <span>Images</span>
+              <input type="file" name="iamges" id="images" accept="image/*" (change)="checkImageFileType($event)"  multiple hidden #files>
+              <a type="button" class="btn btn-sm btn-secondary" (click)="files.click()">Choose Images</a>
+            </div>
+          </h6>
+          <div *ngIf="tempImageFiles.length === 0" class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
+            <span class="material-icons rotating">hourglass_empty</span>
+            <p class="text-sm text-muted m-0 mt-1">No Images</p>
+          </div>
+          <ul class="list-group list-group-flush mt-2" *ngIf="tempImageFiles.length !== 0">
+            <li *ngFor="let file of tempImageFiles; index as idx" class="list-group-item px-0">
+              <div class="d-flex flex-column flex-sm-row py-1">
+                <div class="flex-grow-1 d-flex flex-column">
+                  <span class="fw-bold">{{ idx+1 }}. {{ checkFileType(file) }}</span>
+                  <span class="text-sm text-muted">{{ file.type }}</span>
+                </div>
+                <div class="flex-shrink-0 d-grid gap-2 d-sm-block">
+                  <button type="button" class="btn btn-sm rounded-pill me-1" [ngClass]="{
+                    'btn-secondary': restaurantForm.get('thumbnailImage').value !== idx,
+                    'btn-success': restaurantForm.get('thumbnailImage').value === idx
+                  }" (click)="changeThumbnailImageIdx(idx)">
+                    <span class="text-wrap">Set Thumbnail Image</span>
+                  </button>
+                  <button type="button" class="btn btn-danger btn-sm rounded-pill" (click)="removeImage(idx)">Remove</button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div> 
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.dismiss('')">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary btn-sm" [disabled]="loader">
+        Save
+        <span *ngIf="loader">&nbsp;</span>
+        <div *ngIf="loader" class="spinner-border spinner-border-sm text-white" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </button>
+    </div>
+  </form>
+</ng-template>

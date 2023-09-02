@@ -1,0 +1,142 @@
+<div class="row w-100 m-0 mt-4 mb-1">
+  <div class="col-12 col-sm-8">
+    <h4 class="d-flex justify-content-between align-items-center">
+      <span>My Address</span>
+      <button type="button" class="btn btn-primary btn-sm rounded-pill d-flex align-items-center" (click)="openAddressModal(userAddressModal)">
+        <span class="material-icons mr-1">add</span>
+        <span class="mr-2">Add New Address</span>
+      </button>
+    </h4>
+
+    <div class="card" *ngFor="let address of userAddress; index as idx">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-sm-8">
+            <div class="d-flex flex-column">
+              <span class="text-sm text-muted">Address</span>
+              <span class="h5 m-0">{{ address['street'] }}</span>
+            </div>
+          </div>
+          <div class="col-12 col-sm">
+            <div class="d-flex flex-column">
+              <span class="text-sm text-muted">Postal Code</span>
+              <span class="h5 m-0">{{ address['pincode'] }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-12 col-sm-4">
+            <div class="d-flex flex-column">
+              <span class="text-sm text-muted">City</span>
+              <span class="h5 m-0">{{ address['city'] }}</span>
+            </div>
+          </div>
+          <div class="col-12 col-sm-4">
+            <div class="d-flex flex-column">
+              <span class="text-sm text-muted">State</span>
+              <span class="h5 m-0">{{ address['state'] }}</span>
+            </div>
+          </div>
+          <div class="col-12 col-sm-4">
+            <div class="d-flex flex-column">
+              <span class="text-sm text-muted">Country</span>
+              <span class="h5 m-0">{{ address['country'] }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer bg-white">
+        <div class="d-flex justify-content-end align-items-end">
+          <button type="button" class="btn btn-secondary btn-sm rounded-pill mr-2" (click)="openAddressModal(userAddressModal, address)">Update</button>
+          <button type="button" class="btn btn-danger btn-sm rounded-pill" (click)="deleteUserAddress(address.addressId, idx)">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-4">
+    <div class="card shadow-sm" style="margin-top: 7rem;">
+      <img
+        src="https://static.vecteezy.com/packs/media/components/global/search-explore-nav/img/photos/term-bg-1-c98135712157fb21286eafd480f610f9.jpg"
+        style="border-radius: 50%; width: 200px; height: 200px; object-fit: contain; margin: auto; margin-top: -7rem;">
+      <form [formGroup]="userForm" (ngSubmit)="updateProfile()">
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-control-label" for="input-username">Full Name</label>
+            <input type="text" id="input-username" class="form-control form-control-alternative"
+              formControlName="fullName" placeholder="Full Name">
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="input-email">Email address</label>
+            <input type="email" id="input-email" class="form-control form-control-alternative" formControlName="email"
+              placeholder="jessica@example.com">
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="input-first-name">Phone Number</label>
+            <input type="text" id="input-first-name" class="form-control form-control-alternative"
+              formControlName="contact" placeholder="+91-****-***-***">
+          </div>
+        </div>
+        <div class="card-footer bg-white border-0">
+          <div class="row">
+            <div class="col d-flex justify-content-center align-items-center">
+              <button type="submit" class="btn btn-primary rounded-pill" [disabled]="loader">
+                Update Profile
+                <span *ngIf="loader">&nbsp;</span>
+                <div *ngIf="loader" class="spinner-border spinner-border-sm text-white" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #userAddressModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Restaurant Details</h4>
+    <button type="button" class="close" aria-label="Close" id="closeAddNewStaffModal" #closeAddNewStaffModal
+      (click)="modal.dismiss('Cross click')">
+      <span class="align-middle">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="userAddressForm" (ngSubmit)="saveRestaurant()" ngNativeValidate>
+    <div class="modal-body">
+      <div class="col form-group">
+        <label for="street" class="text-muted m-0 mb-1">Street</label>
+        <input type="text" class="form-control" id="street" name="street" formControlName="street">
+      </div>
+      <div class="col form-group">
+        <label for="city" class="text-muted m-0 mb-1">City</label>
+        <input type="text" class="form-control" id="city" name="city" formControlName="city">
+      </div>
+      <div class="col form-group">
+        <label for="state" class="text-muted m-0 mb-1">State</label>
+        <input type="text" class="form-control" id="state" name="state" formControlName="state">
+      </div>
+      <div class="col form-group">
+        <label for="country" class="text-muted m-0 mb-1">Country</label>
+        <input type="text" class="form-control" id="country" name="country" formControlName="country">
+      </div>
+      <div class="col form-group">
+        <label for="pincode" class="text-muted m-0 mb-1">Postal Code</label>
+        <input type="text" class="form-control" id="pincode" name="pincode" formControlName="pincode">
+      </div>
+      
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.dismiss('')">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary btn-sm" [disabled]="loader">
+        Save
+        <span *ngIf="loader">&nbsp;</span>
+        <div *ngIf="loader" class="spinner-border spinner-border-sm text-white" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </button>
+    </div>
+  </form>
+</ng-template>

@@ -1,0 +1,48 @@
+SQL supports various data types to represent different kinds of data, including numbers, text, dates, and more. Here are some common data types in SQL:
+
+1. **Numeric Data Types:**
+   - `INT`: Represents integer values.
+   - `FLOAT` or `REAL`: Represents floating-point numbers.
+   - `DECIMAL` or `NUMERIC`: Represents fixed-point numbers with a specified precision and scale.
+   - `BIGINT`: Represents large integer values.
+   - `SMALLINT`: Represents small integer values.
+   
+2. **Character String Data Types:**
+   - `CHAR(n)`: Represents fixed-length character strings of length `n`.
+   - `VARCHAR(n)`: Represents variable-length character strings with a maximum length of `n`.
+   - `TEXT`: Represents variable-length character strings with no specified maximum length.
+
+3. **Date and Time Data Types:**
+   - `DATE`: Represents a date (year, month, and day).
+   - `TIME`: Represents a time of day.
+   - `DATETIME` or `TIMESTAMP`: Represents a combination of date and time.
+   - `INTERVAL`: Represents a time interval or duration.
+
+4. **Boolean Data Type:**
+   - `BOOLEAN` or `BOOL`: Represents true or false values.
+
+5. **Binary Data Types:**
+   - `BINARY(n)`: Represents fixed-length binary data of length `n`.
+   - `VARBINARY(n)`: Represents variable-length binary data with a maximum length of `n`.
+   - `BLOB`: Represents binary large objects for storing large binary data like images or documents.
+
+6. **Enumerated Data Type:**
+   - `ENUM`: Represents a set of predefined values that a column can take.
+
+7. **JSON Data Types:**
+   - `JSON`: Represents JSON (JavaScript Object Notation) data.
+   - `JSONB`: Represents binary JSON data, which is more efficient for querying.
+
+8. **Geospatial Data Types (in some databases):**
+   - `GEOMETRY`, `POINT`, `LINESTRING`, `POLYGON`, etc.: Used for storing and querying geographic and geometric data.
+
+9. **Custom/User-Defined Data Types (in some databases):**
+   - Some database systems allow you to define your own custom data types to suit specific needs.
+
+10. **Array Data Types (in some databases):**
+    - Arrays can hold multiple values of the same data type.
+
+These are some of the common data types you'll encounter in SQL. 
+The specific data types and their syntax may vary slightly between different database management systems 
+(e.g., MySQL, PostgreSQL, SQL Server), so it's essential to refer to the documentation of the database 
+you are using for precise details on data types and their usage.

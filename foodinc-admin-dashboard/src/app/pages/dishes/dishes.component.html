@@ -1,0 +1,146 @@
+<div class="container-fluid py-3">
+  <div class="row w-100 m-0">
+    <div class="col">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white border-0">
+          <div class="row">
+            <div class="col d-flex justify-content-between align-items-center">
+              <h4>Dishes</h4>
+              <button type="button" class="btn btn-primary btn-sm" (click)="openDishModal(dishModalRef)">Add Dish</button>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-flush m-0">
+            <thead>
+              <tr>
+                <th scope="col">Sr. No</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Ingredient</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let dish of dishes; index as idx">
+                <td>{{ idx + 1 }}</td>
+                <td>{{ dish["name"] }}</td>
+                <td>{{ dish["price"] | currency: 'INR':'symbol' }}</td>
+                <td>
+                  <h6 class="btn btn-sm btn-primary rounded-pill no-hover-effect me-1 mb-1" *ngFor="let ingredient of dish['ingredients']; index as idx">
+                    {{ ingredient }}
+                  </h6>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-outline-primary me-1" (click)="openDishModal(dishModalRef, dish)">Update</button>
+                  <button type="button" class="btn btn-sm btn-outline-primary me-1">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #dishModalRef let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Dish Details</h4>
+    <button type="button" class="btn-close" aria-label="Close" id="closeAddNewStaffModal" #closeAddNewStaffModal
+      (click)="modal.dismiss('Cross click')">
+    </button>
+  </div>
+  <form [formGroup]="dishForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="saveDish()" ngNativeValidate>
+    <div class="modal-body">
+      <div class="row w-100 m-0">
+        <div class="col-12 col-sm-5">
+          <h6 class="m-0 mb-1">About Dish</h6>
+          <div class="mb-2">
+            <label for="restaurantName" class="form-label text-muted m-0 mb-1">Name</label>
+            <input type="text" class="form-control" id="restaurantName" name="restaurantName" formControlName="name" placeholder="eg: ABS Dish">
+          </div>
+          <div class="mb-2">
+            <label for="description" class="form-label text-muted m-0 mb-1">About Dish</label>
+            <textarea type="text" rows="5" class="form-control" id="description" name="description" formControlName="description" placeholder="eg: ABS Dish"></textarea>
+          </div>
+          <div class="mb-2">
+            <label for="price" class="form-label text-muted m-0 mb-1">Price</label>
+            <input type="text" class="form-control" id="price" name="price" formControlName="price" placeholder="eg: Rs.***">
+          </div>
+          <div class="mb-2">
+            <label for="status" class="text-sm text-muted m-0 mb-1">Dish status</label><br>
+            <div id="status" class="btn-group btn-group-toggle" ngbRadioGroup formControlName="status">
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" class="btn-check" [value]="1">Acive
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" class="btn-check" [value]="0">Inactive
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm">
+          <h6 class="m-0 mb-1">Ingredients</h6>
+          <div class="input-group">
+            <input type="text" name="ingredients" id="ingredients" class="form-control" (keydown.Enter)="addIngredients($event); ingredientField.value = ''" #ingredientField>
+            <button type="button" class="btn btn-secondary" (click)="addIngredients($event); ingredientField.value = ''">Add Ingredient</button>
+          </div>
+          <div *ngIf="getIngredientsControls().length === 0" class="d-flex flex-column justify-content-center align-items-center mt-2">
+            <span class="material-icons rotating">hourglass_empty</span>
+            <p class="text-sm text-muted m-0 mt-1">No Ingredients</p>
+          </div>
+          <div class="d-flex flex-wrap mt-2" *ngIf="getIngredientsControls().length !== 0">
+            <h6 class="btn btn-sm btn-primary rounded-pill me-1 mb-1 d-flex align-items-center" *ngFor="let attr of getIngredientsControls()['controls']; index as idx">
+              <span class="flex-grow-1 me-3" (click)="ingredientField.value = attr.value;removeIngredient(idx)">{{ attr.value }}</span>
+              <a type="button" class="btn-close flex-shrink-0" title="Remove" (click)="removeIngredient(idx)"></a>
+            </h6>
+          </div>
+          <hr class="my-3">
+          <h6 class="m-0 mb-1">
+            <div class="d-flex justify-content-between">
+              <span>Images</span>
+              <input type="file" name="iamges" id="images" accept="image/*" (change)="checkImageFileType($event)"  multiple hidden #files>
+              <a type="button" class="btn btn-sm btn-secondary" (click)="files.click()">Choose Images</a>
+            </div>
+          </h6>
+          <div *ngIf="tempImageFiles.length === 0" class="d-flex flex-column justify-content-center align-items-center">
+            <span class="material-icons rotating">hourglass_empty</span>
+            <p class="text-sm text-muted m-0 mt-1">No Images</p>
+          </div>
+          <ul class="list-group list-group-flush mt-2" *ngIf="tempImageFiles.length !== 0">
+            <li *ngFor="let file of tempImageFiles; index as idx" class="list-group-item px-0">
+              <div class="d-flex flex-column flex-sm-row py-1">
+                <div class="flex-grow-1 d-flex flex-column">
+                  <span class="fw-bold">{{ idx+1 }}. {{ checkFileType(file) }}</span>
+                  <span class="text-sm text-muted">{{ file.type }}</span>
+                </div>
+                <div class="flex-shrink-0 d-grid gap-2 d-sm-block">
+                  <button type="button" class="btn btn-sm me-1" [ngClass]="{
+                    'btn-secondary': dishForm.get('thumbnailImage').value !== idx,
+                    'btn-success': dishForm.get('thumbnailImage').value === idx
+                  }" (click)="changeThumbnailImageIdx(idx)">
+                    <span class="text-wrap">Set Thumbnail Image</span>
+                  </button>
+                  <button type="button" class="btn btn-secondary btn-sm " (click)="removeImage(idx)">Remove</button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div> 
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.dismiss('')">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary btn-sm" [disabled]="loader">
+        Save
+        <span *ngIf="loader">&nbsp;</span>
+        <div *ngIf="loader" class="spinner-border spinner-border-sm text-white" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </button>
+    </div>
+  </form>
+</ng-template>

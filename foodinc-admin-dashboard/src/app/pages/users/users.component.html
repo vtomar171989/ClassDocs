@@ -1,0 +1,36 @@
+<div class="container-fluid py-3">
+  <div class="row w-100 m-0">
+    <div class="col">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white border-0">
+          <h4>Users</h4>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-flush m-0">
+            <thead>
+              <tr>
+                <th scope="col">Sr. No</th>
+                <th scope="col">Name</th>
+                <!-- <th>Username</th> -->
+                <th scope="col">Emai</th>
+                <th scope="col">Contact</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users; index as idx">
+                <td>{{ idx + 1 }}</td>
+                <td>{{ user["fullName"] }}</td>
+                <td>{{ user["email"] }}</td>
+                <td>{{ user["contact"] }}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-primary">View Orders</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

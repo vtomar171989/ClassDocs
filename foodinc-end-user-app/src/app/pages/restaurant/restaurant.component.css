@@ -1,0 +1,4 @@
+.restaurant-card-hover:hover {
+  cursor: pointer;
+  box-shadow: 0 0 6px #a0a0a0;
+}

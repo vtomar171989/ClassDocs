@@ -1,0 +1,61 @@
+<div class="row w-100 m-0 mt-4" *ngIf="orders.length === 0">
+  <div class="col" >
+    <div class="card ">
+      <div class="card-body">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <img src="./../../../assets/empty.svg" alt="" class="img-fluid" width="256px" height="256px">
+          <h5 class="card-title mt-2">
+            No Orders
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row w-100 m-0 mt-4" *ngIf="orders.length !== 0">
+  <div class="col-12 mt-2" *ngFor="let order of orders; index as idx">
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <div class="row w-100 m-0">
+          <div class="col-12">
+            <div class="d-flex">              
+              <p class="card-text d-flex flex-column mr-4">
+                <span class="text-sm">Order Placed</span>
+                <span class="font-weight-bold">{{ order['orderDate'] | date: 'dd-MM-yyyy hh:mm:ss a' }}</span>
+              </p>
+              <p class="card-text d-flex flex-column mr-4">
+                <span class="text-sm">Total</span>
+                <span class="font-weight-bold">{{ order['totalAmount'] | currency:'INR':'symbol' }}</span>
+              </p>
+              <p class="card-text d-flex flex-column flex-grow-1">
+                <span class="text-sm">Ship To</span>
+                <span class="font-weight-bold">{{ order['name'] }}</span>
+              </p>
+              <p class="card-text d-flex flex-column mr-4">
+                <span class="text-sm">Order ID: <strong>#{{ order['orderId'] }}</strong></span>
+                <a type="button" class="btn btn-link p-0 text-left">View Order Details</a>
+                <!-- <span class="font-weight-bold">{{ order['totalAmount'] | currency:'INR':'symbol' }}</span> -->
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row w-100 m-0" *ngFor="let prd of order['products']; index as idx" [ngClass]="{
+          'mt-2': idx !== 0
+        }">
+          <div class="col-12 col-sm-2 d-flex justify-content-center align-items-center">
+            <img [src]="prd['productImg'] || './../../../assets/noImage.jpg'" [alt]="prd['productTitle']" class="img-fluid" height="100px" width="100px">
+          </div>
+          <div class="col-12 col-sm-10">
+            <h5 class="card-title m-0">{{ prd['productTitle'] }}</h5>
+            <p class="card-text mb-1">
+              {{ prd['productDescription'] }}
+            </p>
+            <p class="card-text text-danger mb-1">{{ prd['price'] | currency:'INR':'symbol' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

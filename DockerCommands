@@ -1,0 +1,45 @@
+Docker is a powerful tool for containerization, and here are some quick commands with explanations to help you get started:
+
+If you want to try out these commands for free - https://labs.play-with-docker.com/
+
+docker version: This command displays the Docker version information on your system. It's useful to check if Docker is installed and to verify the version.
+
+docker info: Provides detailed information about your Docker installation, including the number of containers and images, storage drivers, and more.
+
+docker pull <image_name>:<tag>: This command downloads a Docker image from a registry (like Docker Hub) to your local system. Replace <image_name> with the name of the image and <tag> with the desired version.
+
+docker images: Lists all the Docker images available on your system. It shows the image name, tag, image ID, creation date, and size.
+
+docker ps: Displays a list of currently running containers. Add the -a flag to see all containers (including stopped ones).
+
+docker run <options> <image_name>:<tag>: This command creates and runs a new container from a specific image. Replace <image_name> and <tag> as appropriate. Some common options include -d (detached mode), -p (port mapping), and --name (assigning a name to the container).
+
+docker stop <container_id or container_name>: Stops a running container. You can use either the container's ID or name.
+
+docker start <container_id or container_name>: Starts a stopped container.
+
+docker restart <container_id or container_name>: Restarts a running or stopped container.
+
+docker exec -it <container_id or container_name> <command>: Executes a command inside a running container. The -it flags allow you to interact with the container's terminal.
+
+docker logs <container_id or container_name>: Displays the logs of a specific container.
+
+docker rm <container_id or container_name>: Removes a stopped container. Add the -f flag to forcefully remove a running container.
+
+docker rmi <image_name>:<tag>: Deletes a specific Docker image from your system. Make sure no containers are using that image before deleting.
+
+docker network ls: Lists all networks created on the Docker host.
+
+docker volume ls: Lists all volumes created on the Docker host.
+
+Scenario 1: If you need to delete the image for which there is a container created.
+1) Delete the container: docker rm <id of container> (You can see id using command 'docker ps -a')
+2) Now delete the image: docker image rm <id of image> (You can see image if using 'docker images' command)
+
+If you do not delete the container it will flash an error stating "unable to delete: image is being used by container <id>".
+
+docker-compose up: Starts services defined in a docker-compose.yml file. This is useful for multi-container applications.
+
+docker-compose down: Stops and removes containers, networks, and volumes defined in a docker-compose.yml file.
+
+These commands should help you get started with Docker. Remember to replace placeholders like <image_name>, <tag>, <container_id>, and <container_name> with actual values relevant to your use case. For more detailed information about each command, you can use the docker --help command or refer to the official Docker documentation.
